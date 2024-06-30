@@ -19,8 +19,8 @@ import re
 np.random.seed(500)
 
 # Load the saved model and vectorizer
-loaded_model = joblib.load('/content/drive/MyDrive/ProductionSVMModel/ModelDumps/v8withconfidence_svm.joblib')
-loaded_vectorizer = joblib.load('/content/drive/MyDrive/ProductionSVMModel/ModelDumps/v8withconfidence_tfidf_vectorizer.joblib')
+loaded_model = joblib.load('model.joblib')
+loaded_vectorizer = joblib.load('vectorizer.joblib')
 
 def combine_dead_bolt(tokens):
     combined_tokens = []
@@ -38,7 +38,7 @@ def remove_special_characters(text):
     text = re.sub(r'[()//\\\\-]', ' ', text)
     return text
 # Load the new data
-new_data = pd.read_excel(r"/content/drive/MyDrive/ProductionSVMModel/Data/7DSinsMayUpdate.xlsx")
+new_data = pd.read_excel(r"datafile")
 new_data['LossDescription'].dropna(inplace=True)
 new_data['LossDescription'] = new_data['LossDescription'].astype(str)  # Convert to string type
 new_data['LossDescription'] = new_data['LossDescription'].apply(remove_special_characters)
@@ -77,7 +77,7 @@ new_data['Prediction'] = predictions_new_data
 new_data['Confidence'] = probabilities.max(axis=1)
 
 # Save the DataFrame with predictions and confidence to a new Excel file
-output_path = '/content/drive/MyDrive/ProductionSVMModel/predictions/20240509Predictions.xlsx'
+output_path = 'savepredictionsfile'
 new_data.to_excel(output_path, index=False)
 print("Predictions saved to:", output_path)
 
