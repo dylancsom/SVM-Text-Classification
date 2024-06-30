@@ -36,7 +36,7 @@ def remove_special_characters(text):
     text = re.sub(r'[()//\\\\*-]', ' ', text)
     return text
 
-Corpus = pd.read_excel(r"/content/drive/MyDrive/ProductionSVMModel/Data/trainingwithedits.xlsx")
+Corpus = pd.read_excel(r"filename")
 
 num_rows = Corpus.shape[0]
 print("Number of rows in the dataset:", num_rows)
@@ -57,7 +57,7 @@ for index, entry in enumerate(Corpus['text']):
     entry = combine_dead_bolt(entry)
     for word, tag in pos_tag(entry):
         if word not in stopwords.words('english') or word in ["in", "on", "no", "non"]:
-            if word.isalpha() and word not in ["insured", "insured's", "claimant", "clmnt", "clmt", "cv", "ivd", "cvd", "tboned","tbone", "ov", "iv"]:  # Check if word is not "insured" or "insured's"
+            if word.isalpha() and word not in ["list of words to remove"]:  # Check if word is not "insured" or "insured's"
                 word_Final = word_Lemmatized.lemmatize(word, tag_map[tag[0]])
                 Final_words.append(word_Final)
     Corpus.loc[index, 'text_final'] = str(Final_words)
@@ -91,8 +91,8 @@ false_negatives_indices = [index for index, (true_label, pred_label) in enumerat
 # Get the confidence scores for the test samples
 confidence_scores = SVM.predict_proba(Test_X_Tfidf)
 
-joblib.dump(SVM, '/content/drive/MyDrive/ProductionSVMModel/ModelDumps/mach2t5_svm.joblib')
-joblib.dump(Tfidf_vect, '/content/drive/MyDrive/ProductionSVMModel/ModelDumps/mach2t5_tfidf_vectorizer.joblib')
+joblib.dump(SVM, 'model.joblib')
+joblib.dump(Tfidf_vect, 'vectorizer.joblib')
 
 print("SVM Accuracy: ", accuracy_score(predictions_SVM, Test_Y) * 100)
 print("Precision: {:.2f}".format(precision))
